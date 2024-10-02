@@ -26,9 +26,7 @@ jobs:
           deactivate
 
       - name: Create Deployment Package
-        run: |
-          cd src
-          zip -r ../lambda_deployment.zip *
+        run: zip -r ../lambda_deployment.zip *
 
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
