@@ -1,8 +1,10 @@
 import json
+from services.random_number_service import generate_random_number
 
 def lambda_handler(event, context):
-    # TODO implement
+    number = generate_random_number()
+    message = f"Random number generated: {number}"
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
+        'body': json.dumps(message)
     }
