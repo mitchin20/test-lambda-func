@@ -1,5 +1,5 @@
 import json
-from services.random_number_service import generate_random_number
+from src.services.random_number_service import generate_random_number
 
 def lambda_handler(event, context):
     try:

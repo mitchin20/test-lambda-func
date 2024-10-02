@@ -26,7 +26,7 @@ jobs:
           deactivate
 
       - name: Create Deployment Package
-        run: zip -r ../lambda_deployment.zip *
+        run: zip -r lambda_deployment.zip lambda_function.py src
 
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
