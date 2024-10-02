@@ -9,17 +9,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Install zip tool
-        uses: montudor/action-zip@v1
-      - name: Create Zip file for Lambda function
-        run: zip -r code.zip .
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          deactivate
+
+      - name: Create Deployment Package
+        run: |
+          cd src
+          zip -r ../lambda_deployment.zip *
+
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
         with:
           args: "lambda update-function-code \
             --function-name arn:aws:lambda:us-east-1:941377113792:function:testLambdaFunc \
-            --zip-file fileb://code.zip"
+            --zip-file fileb://lambda_deployment.zip"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
